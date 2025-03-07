@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ThyroidGuard - Health Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+</head>
+<body>
+    <header>
+        <h1>ThyroidGuard</h1>
+        <p>Predict thyroid health with ease.</p>
+    </header>
+    <main>
+        <section class="input-form">
+            <h2>Enter Patient Details</h2>
+            <form method="POST">
+                <div class="input-row">
+                    <label>Age</label>
+                    <input type="number" name="age" step="1" required placeholder="e.g., 40">
+                </div>
+                <div class="input-row">
+                    <label>Sex (0=F, 1=M)</label>
+                    <input type="number" name="sex" step="1" min="0" max="1" required placeholder="0 or 1">
+                </div>
+                <div class="input-row">
+                    <label>TSH</label>
+                    <input type="number" name="TSH" step="0.01" placeholder="e.g., 1.2">
+                    <input type="hidden" name="TSH_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>T3</label>
+                    <input type="number" name="T3" step="0.01" placeholder="e.g., 2.3">
+                    <input type="hidden" name="T3_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>TT4</label>
+                    <input type="number" name="TT4" step="0.01" placeholder="e.g., 104">
+                    <input type="hidden" name="TT4_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>T4U</label>
+                    <input type="number" name="T4U" step="0.01" placeholder="e.g., 1.08">
+                    <input type="hidden" name="T4U_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>FTI</label>
+                    <input type="number" name="FTI" step="0.01" placeholder="e.g., 96">
+                    <input type="hidden" name="FTI_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>TBG</label>
+                    <input type="number" name="TBG" step="0.01" placeholder="e.g., 28">
+                    <input type="hidden" name="TBG_measured" value="1">
+                </div>
+                <div class="input-row">
+                    <label>On Thyroxine (0/1)</label>
+                    <input type="number" name="on_thyroxine" step="1" min="0" max="1" value="0">
+                </div>
+                <div class="input-row">
+                    <label>Pregnant (0/1)</label>
+                    <input type="number" name="pregnant" step="1" min="0" max="1" value="0">
+                </div>
+                <button type="submit">Check Thyroid Health</button>
+            </form>
+        </section>
+
+        {% if result %}
+        <section class="output">
+            <h2>Prediction</h2>
+            <p class="diagnosis">Status: {{ result }}</p>
+            <p class="risk">Risk of Thyroid Issue: {{ "%.2f"|format(probability) }}%</p>
+        </section>
+        {% endif %}
+
+        {% if error %}
+        <section class="error">
+            <h2>Error</h2>
+            <p>{{ error }}</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>
